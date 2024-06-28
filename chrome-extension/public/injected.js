@@ -35,12 +35,39 @@
     });
   }
 
+  function sendRequestAsync(payload, callback) {
+    console.log('ethereum.sendAsync called with:', payload);
+    ethereumRequest(payload.method, payload.params).then(
+      result => callback(null, { id: payload.id, jsonrpc: '2.0', result }),
+      error => callback(error),
+    );
+  }
+
+  function sendRequestSync(payload) {
+    console.log('ethereum.sendSync called with:', payload);
+    return {
+      id: payload.id,
+      jsonrpc: '2.0',
+      result: ethereumRequest(payload.method, payload.params),
+    };
+  }
+
   function mountEthereum() {
     const ethereum = {
       isMetaMask: true,
       request: async ({ method, params }) => {
         console.log('ethereum.request called with:', method, params);
         return ethereumRequest(method, params);
+      },
+      send: (payload, callback) => {
+        if (callback) {
+          sendRequestAsync(payload, callback);
+        } else {
+          return sendRequestSync(payload);
+        }
+      },
+      sendAsync: (payload, callback) => {
+        sendRequestAsync(payload, callback);
       },
       on: (event, handler) => {
         console.log(`event registered: ${event}`);
