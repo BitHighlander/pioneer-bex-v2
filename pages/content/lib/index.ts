@@ -1,7 +1,7 @@
 import { toggleTheme } from '@lib/toggleTheme';
 import { exampleThemeStorage } from '@chrome-extension-boilerplate/storage';
-
-console.log('content script loaded');
+const TAG = ' | content/index.js | ';
+console.log(TAG, 'content script loaded');
 
 void toggleTheme();
 
@@ -11,7 +11,7 @@ export async function toggleTheme() {
   console.log('toggled theme:', await exampleThemeStorage.get());
 }
 
-console.log('content loaded');
+console.log('content loaded bro');
 
 // Mock Ethereum provider setup
 const mockedAddress = '0x141D9959cAe3853b035000490C03991eB70Fc4aC';
@@ -38,32 +38,44 @@ const mockResponses = {
   wallet_getPermissions: [{ parentCapability: 'eth_accounts' }],
 };
 
-function handleEthereumRequest(method: string, params: any[]) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (mockResponses[method]) {
-        resolve(mockResponses[method]);
-      } else {
-        reject(new Error(`Method ${method} not supported`));
-      }
-    }, 100);
-  });
-}
+// function handleEthereumRequest(method: string, params: any[]) {
+//   const tag = TAG + " | handleEthereumRequest | "
+//   console.log(tag,'method:', method)
+//   console.log(tag,'params:', params)
+//
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       if (mockResponses[method]) {
+//         resolve(mockResponses[method]);
+//       } else {
+//         reject(new Error(`Method ${method} not supported`));
+//       }
+//     }, 100);
+//   });
+// }
 
 // Listen for messages from the injected script
 window.addEventListener('message', (event: MessageEvent) => {
+  const tag = TAG + ' | window.addEventListener | ';
+  console.log(tag, 'event:', event);
   if (event.source !== window || !event.data || event.data.type !== 'ETH_REQUEST') return;
 
-  console.log('Content script received ETH_REQUEST:', event.data);
+  console.log(tag, 'Content script received ETH_REQUEST:', event.data);
   const { method, params } = event.data;
+  console.log(tag, 'method:', method);
+  console.log(tag, 'params:', params);
 
-  handleEthereumRequest(method, params)
-    .then(result => {
-      window.postMessage({ type: 'ETH_RESPONSE', method, result }, '*');
-    })
-    .catch(error => {
-      window.postMessage({ type: 'ETH_RESPONSE', method, error: error.message }, '*');
-    });
+  const result = mockResponses[method];
+  console.log(tag, 'result:', result);
+  window.postMessage({ type: 'ETH_RESPONSE', method, result }, '*');
+
+  // handleEthereumRequest(method, params)
+  //     .then(result => {
+  //       window.postMessage({ type: 'ETH_RESPONSE', method, result }, '*');
+  //     })
+  //     .catch(error => {
+  //       window.postMessage({ type: 'ETH_RESPONSE', method, error: error.message }, '*');
+  //     });
 });
 
 // Log window.ethereum to ensure it is correctly defined
