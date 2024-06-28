@@ -59,7 +59,7 @@ const manifest = Object.assign(
     devtools_page: 'devtools/index.html',
     web_accessible_resources: [
       {
-        resources: ['*.js', '*.css', '*.svg', 'icon-128.png', 'icon-34.png'],
+        resources: ['*.js', '*.css', '*.svg', 'icon-128.png', 'icon-34.png', 'injected.js'],
         matches: ['*://*/*'],
       },
     ],
