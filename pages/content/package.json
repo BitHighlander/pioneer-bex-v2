@@ -19,10 +19,16 @@
   },
   "dependencies": {
     "@chrome-extension-boilerplate/shared": "workspace:*",
-    "@chrome-extension-boilerplate/storage": "workspace:*"
+    "@chrome-extension-boilerplate/storage": "workspace:*",
+    "@coinmasters/core": "^11.0.41",
+    "@coinmasters/types": "^4.7.41",
+    "@coinmasters/wallet-keepkey": "^13.0.41",
+    "@pioneer-platform/helpers": "^4.0.10",
+    "@pioneer-platform/pioneer-coins": "^9.2.23",
+    "ethers": "^6.13.1"
   },
   "devDependencies": {
-    "@chrome-extension-boilerplate/tsconfig": "workspace:*",
-    "@chrome-extension-boilerplate/hmr": "workspace:*"
+    "@chrome-extension-boilerplate/hmr": "workspace:^",
+    "@chrome-extension-boilerplate/tsconfig": "workspace:*"
   }
 }
