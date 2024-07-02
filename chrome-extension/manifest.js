@@ -22,7 +22,7 @@ const manifest = {
   name: '__MSG_extensionName__',
   version: packageJson.version,
   description: '__MSG_extensionDescription__',
-  permissions: ['storage'].concat(sidePanelConfig.permissions),
+  permissions: ['storage', 'windows'].concat(sidePanelConfig.permissions),
   options_page: 'options/index.html',
   background: {
     service_worker: 'background.iife.js',

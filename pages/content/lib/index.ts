@@ -180,20 +180,28 @@ async function broadcastTransaction(signedTx: string, networkId: string) {
 async function sendTransaction(transaction: any) {
   let tag = TAG + ' | sendTransaction | ';
   try {
-    console.log(tag, 'transaction:', transaction);
-    let params = transaction[0];
-    let chainId = '0x1';
-    params.chainId = chainId;
-    params.from = ADDRESS;
-    let signedTx = await signTransaction(params);
-    console.log(tag, 'signedTx:', signedTx);
+    // Send a message to the background script to open the popup
+    chrome.runtime.sendMessage({ action: 'openPopup' }, (response: any) => {
+      console.log('Popup open response: ', response);
+      console.log('response:', response);
+    });
 
-    let result = '0x1234567890abcdef';
-    //TODO unnerf
-    // let result = await broadcastTransaction(signedTx, chainId)
-    // console.log(tag, 'signedTx:', signedTx)
+    //TODO if approved by user!
 
-    return result;
+    // console.log(tag, 'transaction:', transaction);
+    // let params = transaction[0];
+    // let chainId = '0x1';
+    // params.chainId = chainId;
+    // params.from = ADDRESS;
+    // let signedTx = await signTransaction(params);
+    // console.log(tag, 'signedTx:', signedTx);
+
+    // let result = '0x1234567890abcdef';
+    // //TODO unnerf
+    // // let result = await broadcastTransaction(signedTx, chainId)
+    // // console.log(tag, 'signedTx:', signedTx)
+    //
+    // return result;
   } catch (e) {
     console.error(e);
   }
